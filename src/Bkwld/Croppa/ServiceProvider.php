@@ -31,7 +31,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider {
     public function register() {
 
         // Version specific registering
-        if (abs($this->version()) == 5) {
+        if (abs($this->version()) == 5 or abs($this->version()) == 6) {
             $this->registerLaravel5Lumen();
         }
 
@@ -87,6 +87,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider {
         switch($this->version()) {
             case 4: $this->bootLaravel4(); break;
             case 5: $this->bootLaravel5(); break;
+            case 6: $this->bootLaravel5(); break;
             case -5: $this->bootLumen(); break;
             default: throw new Exception('Unsupported Laravel version');
         }
@@ -140,7 +141,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider {
      * @return array
      */
     public function getConfig() {
-        $key = abs($this->version()) == 5 ? 'croppa' : 'croppa::config';
+        $key = (abs($this->version()) == 5 or abs($this->version()) == 6) ? 'croppa' : 'croppa::config';
 
         $config = $this->app->make('config')->get($key);
 
